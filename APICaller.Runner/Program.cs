@@ -28,6 +28,7 @@ namespace APICaller.Runner
             Console.ReadLine();
         }
 
+        //less desirable: avoid this 
         private static async Task<ResultData[]> BasicCaller(string[] apiUrls)
         {
             var tasks = new List<Task<ResultData>>();
@@ -39,6 +40,8 @@ namespace APICaller.Runner
             return result;
         }
 
+        //more desirable: refer Polly: https://github.com/App-vNext/Polly,
+        //https://www.pluralsight.com/blog/software-development/intro-to-polly
         private static async Task<ResultData[]> ResilientCaller(string[] apiUrls)
         {
             var bulkhead = Policy.BulkheadAsync(100, int.MaxValue);
