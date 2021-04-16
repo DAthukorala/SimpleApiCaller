@@ -12,17 +12,17 @@ namespace APICaller.Runner
         {
             var apiUrls = new string[] { "https://jsonplaceholder.typicode.com/posts", "https://jsonplaceholder.typicode.com/comments", "https://jsonplaceholder.typicode.com/albums", "https://jsonplaceholder.typicode.com/todos", "https://jsonplaceholder.typicode.com/users" };
 
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Basic Call");
-            var basicResults = await BasicCaller(apiUrls);
-            Console.WriteLine("Basic Results");
-            PrintResult(basicResults);
-
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Resilient Call");
             var resilientResults = await ResilientCaller(apiUrls);
             Console.WriteLine("Resilient Results");
             PrintResult(resilientResults);
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Basic Call");
+            var basicResults = await BasicCaller(apiUrls);
+            Console.WriteLine("Basic Results");
+            PrintResult(basicResults);            
 
             Console.ResetColor();
             Console.ReadLine();
@@ -50,7 +50,7 @@ namespace APICaller.Runner
             {
                 var task = bulkhead.ExecuteAsync(async () =>
                 {
-                    return await GetData(i, apiUrls[i], "BasicCaller");
+                    return await GetData(i, apiUrls[i], "ResilientCaller");
                 });
                 tasks.Add(task);
             }
